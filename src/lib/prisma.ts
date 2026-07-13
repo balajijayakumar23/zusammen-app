@@ -1,15 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-import { PrismaLibSql } from "@prisma/adapter-libsql";
-import path from "path";
-
-function getDbUrl() {
-  const dbPath = path.join(process.cwd(), "prisma", "dev.db");
-  const normalized = dbPath.replace(/\\/g, "/");
-  return `file:///${normalized.replace(/^\/+/, "")}`;
-}
+import { PrismaPg } from "@prisma/adapter-pg";
 
 function createPrismaClient() {
-  const adapter = new PrismaLibSql({ url: getDbUrl() });
+  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
   return new PrismaClient({ adapter } as any);
 }
 

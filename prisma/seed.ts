@@ -1,21 +1,19 @@
 import { PrismaClient } from "@prisma/client";
-import { PrismaLibSql } from "@prisma/adapter-libsql";
+import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcryptjs";
-import path from "path";
 
-const dbPath = path.join(process.cwd(), "prisma", "dev.db");
-const normalized = dbPath.replace(/\\/g, "/");
-const dbUrl = `file:///${normalized.replace(/^\/+/, "")}`;
-const adapter = new PrismaLibSql({ url: dbUrl });
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL environment variable is required for seeding");
+}
+
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter } as any);
 
 async function main() {
   console.log("Seeding database...");
-  console.log("DB URL:", dbUrl);
 
   const hashedPw = await bcrypt.hash("password123", 10);
 
-  // Create demo user
   const user = await prisma.user.upsert({
     where: { email: "demo@zusammen.app" },
     update: {},
@@ -26,7 +24,6 @@ async function main() {
     } as any,
   });
 
-  // Create group
   const group = await prisma.group.upsert({
     where: { inviteCode: "demo-group-2026" },
     update: {},
@@ -36,7 +33,6 @@ async function main() {
     },
   });
 
-  // Link user to group
   await prisma.user.update({
     where: { id: user.id },
     data: { groupId: group.id },
@@ -44,7 +40,6 @@ async function main() {
 
   const today = new Date();
 
-  // Seed friends
   const friends = [
     {
       name: "Priya Sharma",
@@ -90,7 +85,7 @@ async function main() {
             year: today.getFullYear(),
             title: "Sunset Hike + Picnic at Barton Creek",
             description:
-              "A scenic sunset hike along Barton Creek Greenbelt followed by a group picnic. We'll bring cameras to capture golden hour shots together.",
+              "A scenic sunset hike along Barton Creek Greenbelt followed by a group picnic.",
             location: "Barton Creek Greenbelt, Austin TX",
             plannedDate: planDate,
             status: "confirmed",
@@ -103,7 +98,6 @@ async function main() {
 
   console.log("Seed complete!");
   console.log("  Demo login: demo@zusammen.app / password123");
-  console.log("  Invite code: demo-group-2026");
 }
 
 main()

@@ -45,34 +45,31 @@ export default async function DashboardPage() {
   const needsAttention = sorted.filter((f) => f.daysUntil <= 56 && !f.hasConfirmedPlan);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       <NavBar />
       <main className="max-w-5xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
-            <p className="text-slate-500 text-sm">{user.group?.name}</p>
+            <h1 className="text-2xl font-bold text-black">Dashboard</h1>
+            <p className="text-gray-500 text-sm">{user.group?.name}</p>
           </div>
-          <Link
-            href="/friends/new"
-            className="bg-violet-600 hover:bg-violet-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition"
-          >
+          <Link href="/friends/new" className="bg-black hover:bg-gray-800 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
             + Add Friend
           </Link>
         </div>
 
         {needsAttention.length > 0 && (
-          <div className="mb-6 bg-amber-50 border border-amber-200 rounded-xl p-4">
-            <p className="font-semibold text-amber-800 mb-2">Time to plan!</p>
+          <div className="mb-6 border border-black rounded-xl p-4 bg-gray-50">
+            <p className="font-semibold text-black mb-2">Time to plan!</p>
             <ul className="space-y-1">
               {needsAttention.map((f) => (
-                <li key={f.id} className="text-amber-700 text-sm flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0" />
+                <li key={f.id} className="text-black text-sm flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-black shrink-0" />
                   <span>
                     <strong>{f.name}</strong>&apos;s birthday is in {f.daysUntil} day
                     {f.daysUntil !== 1 ? "s" : ""} — no confirmed plan yet
                   </span>
-                  <Link href={`/friends/${f.id}`} className="ml-auto text-amber-600 hover:underline text-xs font-medium">
+                  <Link href={`/friends/${f.id}`} className="ml-auto text-black hover:underline text-xs font-medium">
                     Plan now
                   </Link>
                 </li>
@@ -82,12 +79,9 @@ export default async function DashboardPage() {
         )}
 
         {friends.length === 0 ? (
-          <div className="text-center py-24 text-slate-400">
+          <div className="text-center py-24 text-gray-400">
             <p className="text-lg mb-4">No friends added yet.</p>
-            <Link
-              href="/friends/new"
-              className="bg-violet-600 hover:bg-violet-700 text-white font-medium px-6 py-2.5 rounded-lg transition"
-            >
+            <Link href="/friends/new" className="bg-black hover:bg-gray-800 text-white font-medium px-6 py-2.5 rounded-lg transition">
               Add your first friend
             </Link>
           </div>
@@ -98,59 +92,30 @@ export default async function DashboardPage() {
               const isVeryClose = friend.daysUntil <= 14;
               return (
                 <Link key={friend.id} href={`/friends/${friend.id}`} className="block group">
-                  <div
-                    className={`bg-white rounded-xl border p-5 transition hover:shadow-md ${
-                      isVeryClose
-                        ? "border-rose-200 ring-1 ring-rose-100"
-                        : isSoon
-                        ? "border-amber-200"
-                        : "border-slate-200"
-                    }`}
-                  >
+                  <div className={`bg-white rounded-xl border p-5 transition hover:shadow-md ${isVeryClose ? "border-black" : "border-gray-300"}`}>
                     <div className="flex items-start justify-between gap-2 mb-3">
-                      <h2 className="font-semibold text-slate-900 group-hover:text-violet-700 transition">
-                        {friend.name}
-                      </h2>
+                      <h2 className="font-semibold text-black group-hover:underline transition">{friend.name}</h2>
                       {friend.hasConfirmedPlan && (
-                        <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium shrink-0">
-                          Planned
-                        </span>
+                        <span className="text-xs bg-black text-white px-2 py-0.5 rounded-full font-medium shrink-0">Planned</span>
                       )}
                       {isSoon && !friend.hasConfirmedPlan && (
-                        <span
-                          className={`text-xs px-2 py-0.5 rounded-full font-medium shrink-0 ${
-                            isVeryClose ? "bg-rose-100 text-rose-700" : "bg-amber-100 text-amber-700"
-                          }`}
-                        >
-                          Plan soon!
-                        </span>
+                        <span className="text-xs border border-black text-black px-2 py-0.5 rounded-full font-medium shrink-0">Plan soon!</span>
                       )}
                     </div>
-                    <p className="text-sm text-slate-500 mb-1">{friend.city}</p>
-                    <p className="text-sm text-slate-400 truncate">{friend.hobby}</p>
-                    <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <p className="text-sm text-gray-500 mb-1">{friend.city}</p>
+                    <p className="text-sm text-gray-400 truncate">{friend.hobby}</p>
+                    <div className="mt-4 pt-4 border-t border-gray-200 flex items-center justify-between">
                       <div>
-                        <p className="text-xs text-slate-400">Turns {friend.ageTheyTurn}</p>
-                        <p className="text-sm font-medium text-slate-700">
-                          {friend.nextBirthday.toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                          })}
+                        <p className="text-xs text-gray-400">Turns {friend.ageTheyTurn}</p>
+                        <p className="text-sm font-medium text-black">
+                          {friend.nextBirthday.toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                         </p>
                       </div>
                       <div className="text-right">
-                        <p
-                          className={`text-lg font-bold ${
-                            isVeryClose
-                              ? "text-rose-600"
-                              : isSoon
-                              ? "text-amber-600"
-                              : "text-slate-700"
-                          }`}
-                        >
+                        <p className={`text-lg font-bold ${isVeryClose ? "text-black" : isSoon ? "text-gray-700" : "text-gray-500"}`}>
                           {friend.daysUntil === 0 ? "Today!" : `${friend.daysUntil}d`}
                         </p>
-                        <p className="text-xs text-slate-400">until birthday</p>
+                        <p className="text-xs text-gray-400">until birthday</p>
                       </div>
                     </div>
                   </div>
@@ -160,7 +125,6 @@ export default async function DashboardPage() {
           </div>
         )}
 
-        {/* History section */}
         <PastBirthdays groupId={user.groupId!} currentYear={year} />
       </main>
     </div>
@@ -169,10 +133,7 @@ export default async function DashboardPage() {
 
 async function PastBirthdays({ groupId, currentYear }: { groupId: string; currentYear: number }) {
   const completedPlans = await prisma.plan.findMany({
-    where: {
-      friend: { groupId },
-      status: "completed",
-    },
+    where: { friend: { groupId }, status: "completed" },
     include: { friend: true },
     orderBy: { plannedDate: "desc" },
     take: 5,
@@ -182,20 +143,16 @@ async function PastBirthdays({ groupId, currentYear }: { groupId: string; curren
 
   return (
     <div className="mt-12">
-      <h2 className="text-lg font-semibold text-slate-800 mb-4">Recent celebrations</h2>
+      <h2 className="text-lg font-semibold text-black mb-4">Recent celebrations</h2>
       <div className="space-y-3">
         {completedPlans.map((plan) => (
-          <div key={plan.id} className="bg-white rounded-xl border border-slate-200 p-4 flex items-center gap-4">
-            <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-lg shrink-0">
-              ✓
-            </div>
+          <div key={plan.id} className="border border-gray-200 rounded-xl p-4 flex items-center gap-4">
+            <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white text-lg shrink-0">✓</div>
             <div className="flex-1 min-w-0">
-              <p className="font-medium text-slate-900">{plan.title}</p>
-              <p className="text-sm text-slate-500">
+              <p className="font-medium text-black">{plan.title}</p>
+              <p className="text-sm text-gray-500">
                 {plan.friend.name} · {plan.location}
-                {plan.plannedDate
-                  ? ` · ${new Date(plan.plannedDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`
-                  : ""}
+                {plan.plannedDate ? ` · ${new Date(plan.plannedDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}` : ""}
               </p>
             </div>
           </div>

@@ -11,6 +11,8 @@ export default function OnboardingPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const inputClass = "w-full border border-black rounded-lg px-3 py-2 text-sm text-black bg-white focus:outline-none focus:ring-2 focus:ring-black";
+
   async function createGroup(e: React.FormEvent) {
     e.preventDefault();
     setError("");
@@ -50,30 +52,30 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-violet-50 to-indigo-100">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+    <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="w-full max-w-md border border-black rounded-2xl p-8">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-violet-700">Zusammen</h1>
-          <p className="text-slate-500 mt-1">Set up your friend group</p>
+          <h1 className="text-3xl font-bold text-black">Zusammen</h1>
+          <p className="text-gray-500 mt-1">Set up your friend group</p>
         </div>
 
-        <div className="flex rounded-lg bg-slate-100 p-1 mb-6">
+        <div className="flex rounded-lg border border-black p-1 mb-6">
           <button
             onClick={() => setTab("create")}
-            className={`flex-1 py-2 text-sm font-medium rounded-md transition ${tab === "create" ? "bg-white shadow text-violet-700" : "text-slate-500 hover:text-slate-700"}`}
+            className={`flex-1 py-2 text-sm font-medium rounded-md transition ${tab === "create" ? "bg-black text-white" : "text-black hover:bg-gray-100"}`}
           >
             Create Group
           </button>
           <button
             onClick={() => setTab("join")}
-            className={`flex-1 py-2 text-sm font-medium rounded-md transition ${tab === "join" ? "bg-white shadow text-violet-700" : "text-slate-500 hover:text-slate-700"}`}
+            className={`flex-1 py-2 text-sm font-medium rounded-md transition ${tab === "join" ? "bg-black text-white" : "text-black hover:bg-gray-100"}`}
           >
             Join Group
           </button>
         </div>
 
         {error && (
-          <div className="mb-4 bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">
+          <div className="mb-4 border border-black text-black rounded-lg px-4 py-3 text-sm bg-gray-100">
             {error}
           </div>
         )}
@@ -81,42 +83,20 @@ export default function OnboardingPage() {
         {tab === "create" ? (
           <form onSubmit={createGroup} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Group name</label>
-              <input
-                type="text"
-                required
-                value={groupName}
-                onChange={(e) => setGroupName(e.target.value)}
-                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
-                placeholder="e.g. The Squad"
-              />
+              <label className="block text-sm font-medium text-black mb-1">Group name</label>
+              <input type="text" required value={groupName} onChange={(e) => setGroupName(e.target.value)} className={inputClass} placeholder="e.g. The Squad" />
             </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-violet-600 hover:bg-violet-700 text-white font-semibold py-2.5 rounded-lg transition disabled:opacity-50"
-            >
+            <button type="submit" disabled={loading} className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2.5 rounded-lg transition disabled:opacity-50">
               {loading ? "Creating..." : "Create Group"}
             </button>
           </form>
         ) : (
           <form onSubmit={joinGroup} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Invite code</label>
-              <input
-                type="text"
-                required
-                value={inviteCode}
-                onChange={(e) => setInviteCode(e.target.value)}
-                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-violet-500"
-                placeholder="Paste invite code here"
-              />
+              <label className="block text-sm font-medium text-black mb-1">Invite code</label>
+              <input type="text" required value={inviteCode} onChange={(e) => setInviteCode(e.target.value)} className={`${inputClass} font-mono`} placeholder="Paste invite code here" />
             </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-violet-600 hover:bg-violet-700 text-white font-semibold py-2.5 rounded-lg transition disabled:opacity-50"
-            >
+            <button type="submit" disabled={loading} className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2.5 rounded-lg transition disabled:opacity-50">
               {loading ? "Joining..." : "Join Group"}
             </button>
           </form>

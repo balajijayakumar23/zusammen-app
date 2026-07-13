@@ -14,9 +14,9 @@ export default function NavBar() {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-white border-b border-slate-200 sticky top-0 z-40">
+    <nav className="bg-white border-b border-black sticky top-0 z-40">
       <div className="max-w-5xl mx-auto px-4 flex items-center h-14 gap-6">
-        <Link href="/dashboard" className="text-xl font-bold text-violet-700 shrink-0">
+        <Link href="/dashboard" className="text-xl font-bold text-black shrink-0">
           Zusammen
         </Link>
         <div className="flex gap-1 flex-1">
@@ -26,8 +26,8 @@ export default function NavBar() {
               href={l.href}
               className={`px-3 py-1.5 rounded-md text-sm font-medium transition ${
                 pathname === l.href || (l.href !== "/dashboard" && pathname.startsWith(l.href))
-                  ? "bg-violet-100 text-violet-700"
-                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                  ? "bg-black text-white"
+                  : "text-black hover:bg-gray-100"
               }`}
             >
               {l.label}
@@ -36,7 +36,7 @@ export default function NavBar() {
         </div>
         <button
           onClick={() => signOut({ callbackUrl: "/auth/signin" })}
-          className="text-sm text-slate-500 hover:text-slate-700 transition"
+          className="text-sm text-black hover:underline transition"
         >
           Sign out
         </button>
